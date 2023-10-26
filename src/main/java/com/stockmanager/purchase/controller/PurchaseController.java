@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PurchaseController {
 	private final PurchaseService purchaseService;
 
-	@PostMapping("/purchase")
+	@PostMapping("/purchases")
 	public ResponseEntity<SinglePurchaseResponse> purchase(@Valid @RequestBody SinglePurchaseRequest singlePurchaseRequest) {
 		SinglePurchaseResponse singlePurchaseResponse = purchaseService.purchase(singlePurchaseRequest);
 		return ResponseEntity.status(HttpStatus.OK)

@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductController {
 	private final ProductCrudService productCrudService;
 
-	@PostMapping("/product")
+	@PostMapping("/products")
 	public ResponseEntity<ProductAddResponse> add(@Valid @RequestBody ProductAddRequest productAddRequest) {
 		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
 		return ResponseEntity.status(HttpStatus.CREATED)
