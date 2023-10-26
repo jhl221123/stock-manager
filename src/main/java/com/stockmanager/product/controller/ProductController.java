@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stockmanager.product.dto.request.ProductAddRequest;
 import com.stockmanager.product.dto.response.ProductAddResponse;
-import com.stockmanager.product.service.ProductCrudService;
+import com.stockmanager.product.service.ProductService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class ProductController {
-	private final ProductCrudService productCrudService;
+	private final ProductService productService;
 
 	@PostMapping("/products")
 	public ResponseEntity<ProductAddResponse> add(@Valid @RequestBody ProductAddRequest productAddRequest) {
-		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
+		ProductAddResponse productAddResponse = productService.add(productAddRequest);
 		return ResponseEntity.status(HttpStatus.CREATED)
 			.body(productAddResponse);
 	}

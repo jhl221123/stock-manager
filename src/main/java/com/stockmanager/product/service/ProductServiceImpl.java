@@ -13,9 +13,10 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ProductCrudService {
+public class ProductServiceImpl implements ProductDomainService{
 	private final ProductRepository productRepository;
 
+	@Override
 	public ProductAddResponse add(ProductAddRequest request) {
 		Product newProduct = Product.builder()
 			.name(request.getName())
@@ -26,12 +27,19 @@ public class ProductCrudService {
 		return new ProductAddResponse(savedProduct.getId());
 	}
 
-	public ProductFindResponse find(Long productId) {
-		Product findProduct = productRepository.findById(productId)
-			.orElseThrow(NotFoundProductException::new);
+	@Override
+	public ProductFindResponse findDto(Long productId) {
+		Product findProduct = findDomain(productId);
 		return new ProductFindResponse(findProduct);
 	}
 
+	@Override
+	public Product findDomain(Long productId) {
+		return productRepository.findById(productId)
+			.orElseThrow(NotFoundProductException::new);
+	}
+
+	@Override
 	public Long countAll() {
 		return productRepository.count();
 	}
