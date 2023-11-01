@@ -24,7 +24,7 @@ public class ProductCrudTest {
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
-	@DisplayName("상품 등록에 성공하면, 구매한 상품에 대한 응답과 상태코드를 반환한다.")
+	@DisplayName("상품 등록에 성공하면, 등록한 상품에 대한 응답과 상태코드를 반환한다.")
 	@Transactional
 	void productPurchaseSuccess() throws Exception{
 		//given
@@ -32,11 +32,10 @@ public class ProductCrudTest {
 		String requestJson = objectMapper.writeValueAsString(productAddRequest);
 
 		//expected
-		mockMvc.perform(MockMvcRequestBuilders.post("/product")
+		mockMvc.perform(MockMvcRequestBuilders.post("/products")
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(requestJson)
 		)
 			.andExpect(MockMvcResultMatchers.status().isCreated());
-		// TODO: 2023-10-15 여기서 생성된 id는 어떻게 확인할 수 있을까?
 	}
 }

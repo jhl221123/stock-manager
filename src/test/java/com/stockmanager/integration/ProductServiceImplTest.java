@@ -14,12 +14,13 @@ import com.stockmanager.product.dto.response.ProductAddResponse;
 import com.stockmanager.product.dto.response.ProductFindResponse;
 import com.stockmanager.product.exception.NotFoundProductException;
 import com.stockmanager.FixtureRegistry;
-import com.stockmanager.product.service.ProductCrudService;
+import com.stockmanager.product.service.ProductDomainService;
+import com.stockmanager.product.service.ProductServiceImpl;
 
 @SpringBootTest
-class ProductCrudServiceTest {
+class ProductServiceImplTest {
 	@Autowired
-	private ProductCrudService productCrudService;
+	private ProductDomainService productServiceImpl;
 	private final FixtureRegistry fixtureRegistry = new FixtureRegistry();
 
 	@Test
@@ -28,21 +29,21 @@ class ProductCrudServiceTest {
 	void productAddAndFindSuccess() {
 		checkTotalCount(0L);
 		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
-		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
+		ProductAddResponse productAddResponse = productServiceImpl.add(productAddRequest);
 		checkTotalCount(1L);
 
-		ProductFindResponse productFindResponse = productCrudService.find(productAddResponse.getProductId());
+		ProductFindResponse productFindResponse = productServiceImpl.findDto(productAddResponse.getProductId());
 		checkSameProduct(productFindResponse, productAddRequest);
 	}
 
 	@Test
 	@DisplayName("존재하지 않는 상품을 조회하면, 조회는 실패하고 예외가 발생한다.")
 	void productFindFailWithNotFound() {
-		assertThrows(NotFoundProductException.class, ()-> productCrudService.find(100L));
+		assertThrows(NotFoundProductException.class, ()-> productServiceImpl.findDto(100L));
 	}
 
 	private void checkTotalCount(Long expectedCount) {
-		Long currentCount = productCrudService.countAll();
+		Long currentCount = productServiceImpl.countAll();
 		assertThat(currentCount).isEqualTo(expectedCount);
 	}
 

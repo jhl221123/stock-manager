@@ -3,6 +3,8 @@ package com.stockmanager.integration;
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.SQLException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,11 @@ import com.stockmanager.product.dto.request.ProductAddRequest;
 import com.stockmanager.product.dto.response.ProductAddResponse;
 import com.stockmanager.product.dto.response.ProductFindResponse;
 import com.stockmanager.product.exception.NotFoundProductException;
+import com.stockmanager.product.service.ProductDomainService;
 import com.stockmanager.purchase.dto.request.SinglePurchaseRequest;
-import com.stockmanager.purchase.dto.response.SinglePurchaseResponse;
 import com.stockmanager.product.exception.OutOfStockQuantityException;
 import com.stockmanager.FixtureRegistry;
-import com.stockmanager.product.service.ProductCrudService;
+import com.stockmanager.product.service.ProductServiceImpl;
 import com.stockmanager.purchase.service.PurchaseService;
 
 @SpringBootTest
@@ -25,7 +27,7 @@ class PurchaseServiceTest {
 	@Autowired
 	private PurchaseService purchaseService;
 	@Autowired
-	private ProductCrudService productCrudService;
+	private ProductDomainService productServiceImpl;
 	private FixtureRegistry fixtureRegistry = new FixtureRegistry();
 
 	@Test
@@ -34,7 +36,7 @@ class PurchaseServiceTest {
 	void purchaseProductSuccess() {
 		//given
 		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
-		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
+		ProductAddResponse productAddResponse = productServiceImpl.add(productAddRequest);
 
 		SinglePurchaseRequest singlePurchaseRequest = new SinglePurchaseRequest(productAddResponse.getProductId(), 5);
 
@@ -42,7 +44,7 @@ class PurchaseServiceTest {
 		purchaseService.purchase(singlePurchaseRequest);
 
 		//then
-		ProductFindResponse productFindResponse = productCrudService.find(productAddResponse.getProductId());
+		ProductFindResponse productFindResponse = productServiceImpl.findDto(productAddResponse.getProductId());
 		assertThat(productFindResponse.getStockQuantity()).isEqualTo(productAddRequest.getStockQuantity() - 5);
 	}
 
@@ -51,7 +53,7 @@ class PurchaseServiceTest {
 	void purchaseProductFailOutOfStockQuantity() {
 		//given
 		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
-		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
+		ProductAddResponse productAddResponse = productServiceImpl.add(productAddRequest);
 
 		SinglePurchaseRequest singlePurchaseRequest = new SinglePurchaseRequest(productAddResponse.getProductId(), 50);
 
@@ -63,7 +65,7 @@ class PurchaseServiceTest {
 	@DisplayName("존재하지 않는 상품을 구매하려고 하면, 구매에 실패하고 예외가 발생한다.")
 	void purchaseProductFailNotFoundQuantity() {
 		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
-		ProductAddResponse productAddResponse = productCrudService.add(productAddRequest);
+		ProductAddResponse productAddResponse = productServiceImpl.add(productAddRequest);
 
 		SinglePurchaseRequest singlePurchaseRequest = new SinglePurchaseRequest(productAddResponse.getProductId()+100, 5);
 		// TODO: 2023-10-15 존재하지 않는 id로 조회하는 상황을 위해 +100 하는 방식이 좋은 방식인가?, 모든 테스트에 @Transactional을 선언해야할까?
