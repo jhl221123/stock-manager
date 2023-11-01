@@ -21,7 +21,7 @@ public class PurchaseController {
 	@PostMapping("/purchases")
 	public ResponseEntity<SinglePurchaseResponse> purchase(@Valid @RequestBody SinglePurchaseRequest singlePurchaseRequest) {
 		SinglePurchaseResponse singlePurchaseResponse = purchaseService.purchase(singlePurchaseRequest);
-		return ResponseEntity.status(HttpStatus.OK)
+		return ResponseEntity.status(HttpStatus.OK) // TODO: 2023-10-27 구매 도메인을 생성하니까 isCreated가 더 적절한가?
 			.body(singlePurchaseResponse);
 	}
 }
