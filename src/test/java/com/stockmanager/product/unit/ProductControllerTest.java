@@ -1,4 +1,4 @@
-package com.stockmanager.unit;
+package com.stockmanager.product.unit;
 
 import static org.mockito.Mockito.*;
 
@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stockmanager.FixtureRegistry;
+import com.stockmanager.ProductFixture;
 import com.stockmanager.product.controller.ProductController;
 import com.stockmanager.product.dto.request.ProductAddRequest;
 import com.stockmanager.product.dto.response.ProductAddResponse;
@@ -30,20 +30,20 @@ public class ProductControllerTest {
 	private ProductService productService;
 	private MockMvc mockMvc;
 	private ObjectMapper objectMapper;
-	private FixtureRegistry fixtureRegistry;
+	private ProductFixture productFixture;
 
 	@BeforeEach
 	void init() {
 		mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
 		objectMapper = new ObjectMapper();
-		fixtureRegistry = new FixtureRegistry();
+		productFixture = new ProductFixture();
 	}
 
 	@Test
 	@DisplayName("상품등록을 성공하면 등록한 상품에 대한 응답과 상태코드를 반환한다.")
 	void addProductSuccess() throws Exception {
 		//given
-		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
+		ProductAddRequest productAddRequest = productFixture.getProductAddRequest();
 		String requestJson = objectMapper.writeValueAsString(productAddRequest);
 
 		ProductAddResponse productAddResponse = new ProductAddResponse(1L);

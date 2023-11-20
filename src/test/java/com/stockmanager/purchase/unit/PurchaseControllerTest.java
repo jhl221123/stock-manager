@@ -1,4 +1,4 @@
-package com.stockmanager.unit;
+package com.stockmanager.purchase.unit;
 
 import static org.mockito.Mockito.*;
 
@@ -46,7 +46,7 @@ public class PurchaseControllerTest {
 		SinglePurchaseResponse singlePurchaseResponse = new SinglePurchaseResponse(1L);
 		String responseJson = objectMapper.writeValueAsString(singlePurchaseResponse);
 
-		doReturn(singlePurchaseResponse).when(purchaseService).purchase(any(SinglePurchaseRequest.class));
+		doReturn(singlePurchaseResponse).when(purchaseService).purchaseWithoutSync(any(SinglePurchaseRequest.class));
 
 		//when
 		mockMvc.perform(MockMvcRequestBuilders.post("/purchases")

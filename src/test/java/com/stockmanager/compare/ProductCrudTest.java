@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stockmanager.FixtureRegistry;
+import com.stockmanager.ProductFixture;
 import com.stockmanager.product.dto.request.ProductAddRequest;
 
 @SpringBootTest
@@ -20,7 +20,7 @@ import com.stockmanager.product.dto.request.ProductAddRequest;
 public class ProductCrudTest {
 	@Autowired
 	private MockMvc mockMvc;
-	private FixtureRegistry fixtureRegistry = new FixtureRegistry();
+	private ProductFixture productFixture = new ProductFixture();
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Test
@@ -28,7 +28,7 @@ public class ProductCrudTest {
 	@Transactional
 	void productPurchaseSuccess() throws Exception{
 		//given
-		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
+		ProductAddRequest productAddRequest = productFixture.getProductAddRequest();
 		String requestJson = objectMapper.writeValueAsString(productAddRequest);
 
 		//expected

@@ -1,4 +1,4 @@
-package com.stockmanager.product;
+package com.stockmanager.product.integration;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,22 +13,21 @@ import com.stockmanager.product.dto.request.ProductAddRequest;
 import com.stockmanager.product.dto.response.ProductAddResponse;
 import com.stockmanager.product.dto.response.ProductFindResponse;
 import com.stockmanager.product.exception.NotFoundProductException;
-import com.stockmanager.FixtureRegistry;
+import com.stockmanager.ProductFixture;
 import com.stockmanager.product.service.ProductDomainService;
-import com.stockmanager.product.service.ProductServiceImpl;
 
 @SpringBootTest
 class ProductServiceImplTest {
 	@Autowired
 	private ProductDomainService productServiceImpl;
-	private final FixtureRegistry fixtureRegistry = new FixtureRegistry();
+	private final ProductFixture productFixture = new ProductFixture();
 
 	@Test
 	@DisplayName("등록과 조회 모두 성공적으로 수행되면, 조회한 상품의 정보는 등록한 상품의 정보와 같다.")
 	@Transactional
 	void productAddAndFindSuccess() {
 		checkTotalCount(0L);
-		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();
+		ProductAddRequest productAddRequest = productFixture.getProductAddRequest();
 		ProductAddResponse productAddResponse = productServiceImpl.add(productAddRequest);
 		checkTotalCount(1L);
 

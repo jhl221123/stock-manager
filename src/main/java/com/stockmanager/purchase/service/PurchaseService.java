@@ -3,7 +3,6 @@ package com.stockmanager.purchase.service;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.stockmanager.product.domain.Product;
@@ -21,13 +20,17 @@ public class PurchaseService {
 	private final ProductDomainService productDomainService;
 	private final PurchaseRepository purchaseRepository;
 
-	@Transactional(isolation = Isolation.REPEATABLE_READ)
-	public SinglePurchaseResponse purchase(SinglePurchaseRequest singlePurchaseRequest) {
+	@Transactional
+	public SinglePurchaseResponse purchaseWithoutSync(SinglePurchaseRequest singlePurchaseRequest) {
 		Product findProduct = productDomainService.findDomain(singlePurchaseRequest.getProductId());
 		findProduct.reduceStockQuantity(singlePurchaseRequest.getQuantity()); // OutOfStockQuantityException 발생시 롤백
 
 		Purchase newPurchase = new Purchase(LocalDateTime.now());
 		Purchase savedPurchase = purchaseRepository.save(newPurchase);
 		return new SinglePurchaseResponse(savedPurchase.getId());
+	}
+
+	public long count() {
+		return purchaseRepository.count();
 	}
 }

@@ -2,7 +2,7 @@ package com.stockmanager;
 
 import com.stockmanager.product.dto.request.ProductAddRequest;
 
-public class FixtureRegistry {
+public class ProductFixture {
 	private final String NAME = "product_name";
 	private final Integer PRICE = 10000;
 	private final Integer STOCK_QUANTITY = 10;
