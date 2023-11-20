@@ -1,4 +1,4 @@
-package com.stockmanager.integration;
+package com.stockmanager.purchase;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +25,7 @@ public class PurchaseConcurrencyTest {
 	FixtureRegistry fixtureRegistry = new FixtureRegistry();
 
 	@Test
-	@DisplayName("다수의 사용자가 동시에 구매 요청을 보내면 동시성 문제로 인해 데드락이 발생한다.")
+	@DisplayName("다수의 사용자가 동시에 구매 요청을 보내면 동시성 문제가 발생한다.")
 	void purchaseProductFailWithConcurrencyIssue() {
 		//given
 		ProductAddRequest productAddRequest = fixtureRegistry.getProductAddRequest();

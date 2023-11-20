@@ -1,4 +1,4 @@
-package com.stockmanager.integration;
+package com.stockmanager.product;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
