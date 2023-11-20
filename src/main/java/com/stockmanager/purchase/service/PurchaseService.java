@@ -12,10 +12,12 @@ import com.stockmanager.purchase.dto.request.SinglePurchaseRequest;
 import com.stockmanager.purchase.dto.response.SinglePurchaseResponse;
 import com.stockmanager.purchase.repository.PurchaseRepository;
 
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Timed("custom.purchase")
 public class PurchaseService {
 	private final ProductDomainService productDomainService;
 	private final PurchaseRepository purchaseRepository;
@@ -34,3 +36,4 @@ public class PurchaseService {
 		return purchaseRepository.count();
 	}
 }
+

@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PurchaseController {
 	private final PurchaseService purchaseService;
-	private final ProductService productService;
 
 	@PostMapping("/purchases")
 	public ResponseEntity<SinglePurchaseResponse> purchase(@Valid @RequestBody SinglePurchaseRequest singlePurchaseRequest) {

@@ -21,3 +21,24 @@ spring:
     init:
       mode: always
       schema-locations: classpath:h2/schema.sql
+
+management:
+  server:
+    port: 8081
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
