@@ -1,4 +1,4 @@
-package com.stockmanager.integration;
+package com.stockmanager.compare;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
